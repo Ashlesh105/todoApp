@@ -4,7 +4,7 @@ import 'package:login/sqlite_helper.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:login/update_task.dart';
 
-import 'add_new_task.dart';
+import 'package:login/add_new_task.dart';
 
 class TaskList extends StatefulWidget {
   const TaskList({super.key});
@@ -14,22 +14,23 @@ class TaskList extends StatefulWidget {
 }
 
 class _TaskListState extends State<TaskList> {
-  List<Map<String,dynamic>> Tasks = [];
+  List<Map<String,dynamic>> allTasks = [];
   bool isLoading = true;
 
-  void refreshTasks() async{
+  void refreshTasks() async {
     final data = await SQLHelper.getAllTasks();
     setState(() {
-      Tasks = data;
-      isLoading = false;
+      allTasks = data;
+      isLoading = false; // Check if Tasks is empty here
     });
     setState(() {
-      if(Tasks.isEmpty) isLoading = true;
+      if(allTasks.isEmpty) isLoading =true;
     });
   }
+
+
   @override
   void initState() {
-    // TODO: implement initState
     refreshTasks();
     super.initState();
   }
@@ -42,18 +43,18 @@ class _TaskListState extends State<TaskList> {
         backgroundColor: Colors.white
       ),
       floatingActionButton: FloatingActionButton(backgroundColor: Colors.black,onPressed: (){
-        Navigator.push(context, MaterialPageRoute(builder: (context)=> AddNewTask()));
+        Navigator.push(context, MaterialPageRoute(builder: (context)=> const AddNewTask()));
       },child: const Icon(Icons.add),
       ),
       body: isLoading ? const Center(
         child: CircularProgressIndicator(),
-      ):ListView.builder(itemCount: Tasks.length, itemBuilder: (context,index){
+      ):ListView.builder(itemCount: allTasks.length, itemBuilder: (context,index){
         return GestureDetector(
           onTap: (){
-            Navigator.push(context,MaterialPageRoute(builder: (context)=>UpdatendDeleteTask(originalTaskName: Tasks[index]['taskName'], originalTaskDesc: Tasks[index]['taskDesc'], id: Tasks[index]['id'])));
+            Navigator.push(context,MaterialPageRoute(builder: (context)=>UpdatendDeleteTask(originalTaskName: allTasks[index]['taskName'], originalTaskDesc: allTasks[index]['taskDesc'], id: allTasks[index]['id'])));
 
           },
-          child: TaskCard(taskName: Tasks[index]['taskName'], taskDesc: Tasks[index]['taskDesc'], id: Tasks[index]['id']),
+          child: TaskCard(taskName: allTasks[index]['taskName'], taskDesc: allTasks[index]['taskDesc'], id: allTasks[index]['id']),
         );
       },)
     );
@@ -91,7 +92,7 @@ class _TaskCardState extends State<TaskCard> {
       child: Card(
         elevation: 0,
         color: Colors.black,
-        child: Slidable(actionPane: const SlidableDrawerActionPane(),
+        child: Slidable(actionPane:  const SlidableDrawerActionPane(),
         secondaryActions: [
            IconSlideAction(caption: 'Delete',
            color: Colors.redAccent,

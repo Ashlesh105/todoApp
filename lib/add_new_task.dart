@@ -27,7 +27,7 @@ class _AddNewTaskState extends State<AddNewTask> {
     taskDescController.clear();
   }
 
-  displayToastMessage(message) {
+  displayToastMessage(String message) {
     Fluttertoast.showToast(
         msg: message,
         toastLength: Toast.LENGTH_SHORT,
@@ -119,7 +119,7 @@ class _AddNewTaskState extends State<AddNewTask> {
               ),
               ElevatedButton(
                   style:
-                      ElevatedButton.styleFrom(backgroundColor: Colors.amber),
+                      ElevatedButton.styleFrom(backgroundColor: Colors.black),
                   onPressed: () {
                     setState(() {
                       taskName = taskNameController.text;
@@ -130,7 +130,7 @@ class _AddNewTaskState extends State<AddNewTask> {
                   },
                   child: const Text(
                     'Add Task',
-                    style: TextStyle(color: Colors.black),
+                    style: TextStyle(color: Colors.white),
                   ))
             ],
           ),
