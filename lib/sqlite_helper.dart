@@ -26,7 +26,7 @@ class SQLHelper {
       'taskName':taskName,
       'taskDesc':taskDesc,
     };
-    final id = await db.insert('task', data,conflictAlgorithm: sql.ConflictAlgorithm.replace);
+    final id = await db.insert('tasks', data,conflictAlgorithm: sql.ConflictAlgorithm.replace);
     return id;
   }
 
